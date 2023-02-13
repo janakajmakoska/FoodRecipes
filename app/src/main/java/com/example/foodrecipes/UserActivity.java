@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.GridView;
 
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,12 +13,14 @@ import java.util.ArrayList;
 
 
 
-public class UserActivity extends AppCompatActivity {
 
+public class UserActivity extends AppCompatActivity {
+    SQLiteHelper sqLiteHelper;
     GridView gridView;
     ArrayList<Food> list;
     FoodListAdapter adapter = null;
-
+    int limit = 10; // number of rows to retrieve at a time
+    int offset = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,185 +31,20 @@ public class UserActivity extends AppCompatActivity {
         list = new ArrayList<>();
         adapter = new FoodListAdapter(this, R.layout.food_items, list);
         gridView.setAdapter(adapter);
+        sqLiteHelper = new SQLiteHelper (this, "FoodDB.sqlite", null, 1);
 
         // get all data from sqlite
-        Cursor cursor = AddActivity.sqLiteHelper.getData("SELECT * FROM FOOD");
+        Cursor cursor =sqLiteHelper.getData("SELECT * FROM FOOD");
         list.clear();
         while (cursor.moveToNext()) {
             int id = cursor.getInt(0);
             String name = cursor.getString(1);
             String recipes = cursor.getString(2);
-            byte[] image = cursor.getBlob(3);
+            // byte[] image = cursor.getBlob(3);
 
-            list.add(new Food(name, recipes, image, id));
+            list.add(new Food(name, recipes, id));
         }
         adapter.notifyDataSetChanged();
 
-//        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-//
-//                CharSequence[] items = {"Update", "Delete"};
-//                AlertDialog.Builder dialog = new AlertDialog.Builder(UserActivity.this);
-//
-//                dialog.setTitle("Choose an action");
-//                dialog.setItems(items, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int item) {
-//                        if (item == 0) {
-//                            // update
-//                            Cursor c = AddActivity.sqLiteHelper.getData("SELECT id FROM FOOD");
-//                            ArrayList<Integer> arrID = new ArrayList<Integer>();
-//                            while (c.moveToNext()){
-//                                arrID.add(c.getInt(0));
-//                            }
-//                            // show dialog update at here
-//                            showDialogUpdate(FoodList.this, arrID.get(position));
-//
-//                        } else {
-//                            // delete
-//                            Cursor c = AddActivity.sqLiteHelper.getData("SELECT id FROM FOOD");
-//                            ArrayList<Integer> arrID = new ArrayList<Integer>();
-//                            while (c.moveToNext()){
-//                                arrID.add(c.getInt(0));
-//                            }
-//                            showDialogDelete(arrID.get(position));
-//                        }
-//                    }
-//                });
-//                dialog.show();
-//                return true;
-//            }
-//        });
-//    }
-//
-//    ImageView imageViewFood;
-//    private void showDialogUpdate(Activity activity, final int position){
-//
-//        final Dialog dialog = new Dialog(activity);
-//        dialog.setContentView(R.layout.update_food_activity);
-//        dialog.setTitle("Update");
-//
-//        imageViewFood = (ImageView) dialog.findViewById(R.id.imageViewFood);
-//        final EditText Name = (EditText) dialog.findViewById(R.id.Name);
-//        final EditText Recipes = (EditText) dialog.findViewById(R.id.Recipes);
-//        Button btnUpdate = (Button) dialog.findViewById(R.id.btnUpdate);
-//
-//        // set width for dialog
-//        int width = (int) (activity.getResources().getDisplayMetrics().widthPixels * 0.95);
-//        // set height for dialog
-//        int height = (int) (activity.getResources().getDisplayMetrics().heightPixels * 0.7);
-//        dialog.getWindow().setLayout(width, height);
-//        dialog.show();
-//
-//        imageViewFood.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // request photo library
-//                ActivityCompat.requestPermissions(
-//                        UserActivity.this,
-//                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-//                        888
-//                );
-//            }
-//        });
-
-//        btnUpdate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                try {
-//                    AddActivity.sqLiteHelper.updateData(
-//                            Name.getText().toString().trim(),
-//                            Recipes.getText().toString().trim(),
-//                            AddActivity.imageViewToByte(imageViewFood),
-//                            position
-//                    );
-//                    dialog.dismiss();
-//                    Toast.makeText(getApplicationContext(), "Update successfully!!!",Toast.LENGTH_SHORT).show();
-//                }
-//                catch (Exception error) {
-//                    Log.e("Update error", error.getMessage());
-//                }
-//                updateFoodList();
-//            }
-//        });
-//    }
-
-//    private void showDialogDelete(final int idFood){
-//        final AlertDialog.Builder dialogDelete = new AlertDialog.Builder(FoodList.this);
-//
-//        dialogDelete.setTitle("Warning!!");
-//        dialogDelete.setMessage("Are you sure you want to this delete?");
-//        dialogDelete.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                try {
-//                    AddActivity.sqLiteHelper.deleteData(idFood);
-//                    Toast.makeText(getApplicationContext(), "Delete successfully!!!",Toast.LENGTH_SHORT).show();
-//                } catch (Exception e){
-//                    Log.e("error", e.getMessage());
-//                }
-//                updateFoodList();
-//            }
-//        });
-//
-//        dialogDelete.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });
-//        dialogDelete.show();
-//    }
-
-//    private void updateFoodList(){
-//        // get all data from sqlite
-//        Cursor cursor = AddActivity.sqLiteHelper.getData("SELECT * FROM FOOD");
-//        list.clear();
-//        while (cursor.moveToNext()) {
-//            int id = cursor.getInt(0);
-//            String name = cursor.getString(1);
-//            String price = cursor.getString(2);
-//            byte[] image = cursor.getBlob(3);
-//
-//            list.add(new Food(name, price, image, id));
-//        }
-//        adapter.notifyDataSetChanged();
-//    }
-//
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//
-//        if(requestCode == 888){
-//            if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-//                Intent intent = new Intent(Intent.ACTION_PICK);
-//                intent.setType("image/*");
-//                startActivityForResult(intent, 888);
-//            }
-//            else {
-//                Toast.makeText(getApplicationContext(), "You don't have permission to access file location!", Toast.LENGTH_SHORT).show();
-//            }
-//            return;
-//        }
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//    }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        if(requestCode == 888 && resultCode == RESULT_OK && data != null){
-//            Uri uri = data.getData();
-//            try {
-//                InputStream inputStream = getContentResolver().openInputStream(uri);
-//                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//                imageViewFood.setImageBitmap(bitmap);
-//
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
     }
-}
+ }

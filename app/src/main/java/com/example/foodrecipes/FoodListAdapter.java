@@ -2,13 +2,10 @@ package com.example.foodrecipes;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -42,7 +39,7 @@ public class FoodListAdapter extends BaseAdapter {
     }
 
     private class ViewHolder{
-        ImageView imageView;
+    //    ImageView imageView;
         TextView txtName, txtRecepies;
     }
 
@@ -58,7 +55,7 @@ public class FoodListAdapter extends BaseAdapter {
 
             holder.txtName = (TextView) row.findViewById(R.id.txtName);
             holder.txtRecepies = (TextView) row.findViewById(R.id.txtRecipes);
-            holder.imageView = (ImageView) row.findViewById(R.id.imgFood);
+          //  holder.imageView = (ImageView) row.findViewById(R.id.imgFood);
             row.setTag(holder);
         }
         else {
@@ -70,9 +67,9 @@ public class FoodListAdapter extends BaseAdapter {
         holder.txtName.setText(food.getName());
         holder.txtRecepies.setText(food.getRecipes());
 
-        byte[] foodImage = food.getImage();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(foodImage, 0, foodImage.length);
-        holder.imageView.setImageBitmap(bitmap);
+    //    byte[] foodImage = food.getImage();
+      //  Bitmap bitmap = BitmapFactory.decodeByteArray(foodImage, 0, foodImage.length);
+       // holder.imageView.setImageBitmap(bitmap);
 
         return row;
     }

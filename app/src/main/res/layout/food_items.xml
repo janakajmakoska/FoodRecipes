@@ -5,36 +5,35 @@
     android:layout_height="match_parent"
     android:background="#BC8776">
 
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:id="@+id/imgFood"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+<!--    <ImageView-->
+<!--        android:layout_width="150dp"-->
+<!--        android:layout_height="150dp"-->
+<!--        app:srcCompat="@mipmap/ic_launcher"-->
+<!--        android:id="@+id/imgFood"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_alignParentLeft="true"-->
+<!--        android:layout_alignParentStart="true" />-->
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:id="@+id/txtName"
         android:text="Food name"
         android:textSize="17sp"
-        android:textColor="#0e11d1"
-        android:layout_below="@+id/imgFood"
+        android:textColor="#D10E0E"
+
         android:textAlignment="center"
-        android:layout_alignRight="@+id/imgFood"
-        android:layout_alignEnd="@+id/imgFood"
+
         android:layout_marginRight="33dp"
         android:layout_marginEnd="33dp" />
 
     <TextView
         android:text="Recipes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:id="@+id/txtRecipes"
         android:textSize="17sp"
-        android:textColor="#ce1309"
+        android:textColor="@color/black"
         android:textAlignment="center"
         android:layout_below="@+id/txtName"
         android:layout_alignRight="@+id/txtName"

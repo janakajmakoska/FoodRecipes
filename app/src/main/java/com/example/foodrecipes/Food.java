@@ -5,12 +5,12 @@ public class Food {
     private int id;
     private String name;
     private String recipes;
-    private byte[] image;
+//    private byte[] image;
 
-    public Food(String name, String recipes, byte[] image, int id) {
+    public Food(String name, String recipes, int id) {
         this.name = name;
         this.recipes = recipes;
-        this.image = image;
+//        this.image = image;
         this.id = id;
     }
 
@@ -38,11 +38,11 @@ public class Food {
         this.recipes = recipes;
     }
 
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
+//    public byte[] getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(byte[] image) {
+//        this.image = image;
+//    }
 }
